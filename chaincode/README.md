@@ -12,21 +12,21 @@ Your deploy body will look something like this:
 
 ```json
 {
-  "jsonrpc": "2.0",
-  "method": "deploy",
-  "params": {
-    "type": 1,
-    "chaincodeID": {
-      "path": "https://github.com/PayOnTime/chaincode"
-    },
-    "ctorMsg": {
-      "function": "init",
-      "args": [
-        "hi there"
-      ]
-    },
-    "secureContext": "<YOUR_USER_HERE>"
-  },
-  "id": 1
+ "jsonrpc": "2.0",
+ "method": "deploy",
+ "params": {
+   "type": 1,
+   "chaincodeID": {
+     "path": "https://github.com/PayOnTime/demo/chaincode"
+   },
+   "ctorMsg": {
+     "function": "init",
+     "args": [
+       "123"
+     ]
+   },
+   "secureContext": "test_user0"
+ },
+ "id": 1
 }
 ```
