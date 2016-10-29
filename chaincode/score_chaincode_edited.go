@@ -22,6 +22,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
@@ -35,10 +36,10 @@ var companyIndexStr = "_marbleindex" //name for the key/value that will store a 
 //var openTradesStr = "_opentrades"				//name for the key/value that will store all open trades
 
 type Company struct {
-	Name     string `json:"name"` //the fieldtags are needed to keep case from bouncing around
-	Score    int    `json:"score"`
-	Ontime_n int    `json:"ontime_n"`
-	Total_n  int    `json:"total_n"`
+	Name   string `json:"name"` //the fieldtags are needed to keep case from bouncing around
+	Score  int    `json:"score"`
+	Ontime int    `json:"ontime"`
+	Total  int    `json:"total"`
 }
 
 /*type Description struct{
@@ -97,22 +98,7 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 		return nil, err
 	}
 
-	/*var trades AllTrades
-	jsonAsBytes, _ = json.Marshal(trades)								//clear the open trade struct
-	err = stub.PutState(openTradesStr, jsonAsBytes)
-	if err != nil {
-		return nil, err
-	}*/
-
 	return nil, nil
-}
-
-// ============================================================================================================================
-// Run - Our entry point for Invocations - [LEGACY] obc-peer 4/25/2016
-// ============================================================================================================================
-func (t *SimpleChaincode) Run(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
-	fmt.Println("run is running " + function)
-	return t.Invoke(stub, function, args)
 }
 
 // ============================================================================================================================
@@ -124,25 +110,13 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 	// Handle different functions
 	if function == "init" { //initialize the chaincode state, used as reset
 		return t.Init(stub, "init", args)
-		/*} else if function == "delete" { //deletes an entity from its state
-		res, err := t.Delete(stub, args)
-		cleanTrades(stub) //lets make sure all open trades are still valid
-		return res, err*/
 	} else if function == "write" { //writes a value to the chaincode state
 		return t.Write(stub, args)
 	} else if function == "init_company" { //create a new marble
 		return t.init_company(stub, args)
-	} else if function == "new_payment" { //change owner of a marble
-		return t.new_payment(stub, args)
-	} /*else if function == "open_trade" {									//create a new trade order
-		return t.open_trade(stub, args)
-	} else if function == "perform_trade" {									//forfill an open trade order
-		res, err := t.perform_trade(stub, args)
-		cleanTrades(stub)													//lets clean just in case
-		return res, err
-	} else if function == "remove_trade" {									//cancel an open trade order
-		return t.remove_trade(stub, args)
-	}*/
+	} else if function == "newPayment" { //change owner of a marble
+		return t.newPayment(stub, args)
+	}
 	fmt.Println("invoke did not find func: " + function) //error
 
 	return nil, errors.New("Received unknown function invocation")
@@ -244,8 +218,8 @@ func (t *SimpleChaincode) Write(stub shim.ChaincodeStubInterface, args []string)
 	return nil, nil
 }
 
-func (t *SimpleChaincode) new_payment(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	fmt.Println("- start new_payment")
+func (t *SimpleChaincode) newPayment(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	fmt.Println("Running newPayment with args: " + strings.Join(args, ","))
 
 	/*
 		1: Name of company
@@ -268,10 +242,10 @@ func (t *SimpleChaincode) new_payment(stub shim.ChaincodeStubInterface, args []s
 		fmt.Println("Found company " + company)
 		fmt.Println(res)
 
-		res.Total_n++
+		res.Total++
 
 		if ontime {
-			res.Ontime_n++
+			res.Ontime++
 		}
 
 		jsonAsBytes, _ := json.Marshal(res)
@@ -280,7 +254,7 @@ func (t *SimpleChaincode) new_payment(stub shim.ChaincodeStubInterface, args []s
 			return nil, err
 		}
 
-		fmt.Println("- updated company in new_payment")
+		fmt.Println("- updated company in newPayment")
 		return nil, nil
 	}
 
@@ -291,14 +265,16 @@ func (t *SimpleChaincode) new_payment(stub shim.ChaincodeStubInterface, args []s
 // Init Marble - create a new marble, store into chaincode state
 // ============================================================================================================================
 func (t *SimpleChaincode) init_company(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	fmt.Println("Running init_company with args: " + strings.Join(args, ","))
+
 	var err error
 	/*Name string `json:"name"`					//the fieldtags are needed to keep case from bouncing around
 	Score int `json:"score"`
-	Ontime_n int `json:"ontime_n"`
-	Total_n int `json:"total_n"`*/
+	Ontime int `json:"Ontime"`
+	Total int `json:"Total"`*/
 
 	//   0       1       2     3
-	// "Name", "Score, "Ontime_n", "Total_n"
+	// "Name", "Score, "Ontime", "Total"
 	if len(args) != 4 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 4")
 	}
@@ -317,21 +293,14 @@ func (t *SimpleChaincode) init_company(stub shim.ChaincodeStubInterface, args []
 	if len(args[3]) <= 0 {
 		return nil, errors.New("4th argument must be a non-empty int")
 	}
-	/*name := args[0]
-	color := strings.ToLower(args[1])
-	user := strings.ToLower(args[3])
-	size, err := strconv.Atoi(args[2])
-	if err != nil {
-		return nil, errors.New("3rd argument must be a numeric string")
-	} */
 
 	//   0       1       2     3
-	// "Name", "Score, "Ontime_n", "Total_n"
+	// "Name", "Score, "Ontime", "Total"
 	// QUESTION -- Is it ok to have multiple err in each of the strconv types to capture possible errors? or should these be err1, err2, etc
 	name := args[0]
 	score, err := strconv.Atoi(args[1])
-	ontime_n, err := strconv.Atoi(args[2])
-	total_n, err := strconv.Atoi(args[3])
+	Ontime, err := strconv.Atoi(args[2])
+	Total, err := strconv.Atoi(args[3])
 	if err != nil {
 		return nil, errors.New("this argument must be a numeric string")
 	}
@@ -350,9 +319,9 @@ func (t *SimpleChaincode) init_company(stub shim.ChaincodeStubInterface, args []
 	}
 
 	//   0       1       2     3
-	// "Name", "Score, "Ontime_n", "Total_n"
+	// "Name", "Score, "Ontime", "Total"
 	//build the company json string manually
-	str := `{"name": "` + name + `", "score": "` + strconv.Itoa(score) + `", "ontime_n": ` + strconv.Itoa(ontime_n) + `, "total_n": "` + strconv.Itoa(total_n) + `"}`
+	str := `{"name": "` + name + `", "score": "` + strconv.Itoa(score) + `", "ontime": ` + strconv.Itoa(Ontime) + `, "total": "` + strconv.Itoa(Total) + `"}`
 	fmt.Println("Company: " + str)
 	err = stub.PutState(name, []byte(str)) //store company with id as key
 	if err != nil {
