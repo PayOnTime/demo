@@ -353,6 +353,7 @@ func (t *SimpleChaincode) init_company(stub shim.ChaincodeStubInterface, args []
 	// "Name", "Score, "Ontime_n", "Total_n"
 	//build the company json string manually
 	str := `{"name": "` + name + `", "score": "` + strconv.Itoa(score) + `", "ontime_n": ` + strconv.Itoa(ontime_n) + `, "total_n": "` + strconv.Itoa(total_n) + `"}`
+	fmt.Println("Company: " + str)
 	err = stub.PutState(name, []byte(str)) //store company with id as key
 	if err != nil {
 		return nil, err
@@ -373,7 +374,7 @@ func (t *SimpleChaincode) init_company(stub shim.ChaincodeStubInterface, args []
 	jsonAsBytes, _ := json.Marshal(companyIndex)
 	err = stub.PutState(companyIndexStr, jsonAsBytes) //store name of marble
 
-	fmt.Println("- end init marble")
+	fmt.Println("- end init company")
 	return nil, nil
 }
 
