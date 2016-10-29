@@ -9,7 +9,7 @@ These instructions assume that you are developing on a local Hyperledger network
 
 Connect to the `/registrar` endpoint on one of your peers and make a post with the body below:
 
-```
+```json
 {
   "enrollId": "test_user0",
   "enrollSecret": "MS9qrN8hFjlE"
@@ -51,7 +51,7 @@ Your request body will look like this:
 
 If successful, the response to the deploy request will look something like this:
 
-```
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -64,7 +64,7 @@ If successful, the response to the deploy request will look something like this:
 
 Take the long hash from that response and feed it into the body of your query request:
 
-```
+```json
 {
  "jsonrpc": "2.0",
  "method": "query",
@@ -87,7 +87,7 @@ Take the long hash from that response and feed it into the body of your query re
 
 The response will look like this:
 
-```
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -95,5 +95,76 @@ The response will look like this:
     "message": "123"
   },
   "id": 1
+}
+```
+
+#### Example Invoke bodies
+
+##### Create a company
+
+```json
+{
+ "jsonrpc": "2.0",
+ "method": "invoke",
+ "params": {
+   "type": 1,
+   "chaincodeID": {
+     "name": "29ee1b17a8bfc7bd6d43a7f8739771542bc88da2943793e6a9100272455bd296cdec25fca2bd2b0ec35308e0680369111daf715b255f039e7636b95ec07c1ced"
+   },
+   "ctorMsg": {
+     "function": "init_company",
+     "args": [
+       "company1", "1", "2", "3"
+     ]
+   },
+   "secureContext": "test_user0"
+ },
+ "id": 1
+}
+```
+
+##### Add a payment to a company's history
+
+```json
+{
+ "jsonrpc": "2.0",
+ "method": "invoke",
+ "params": {
+   "type": 1,
+   "chaincodeID": {
+     "name": "29ee1b17a8bfc7bd6d43a7f8739771542bc88da2943793e6a9100272455bd296cdec25fca2bd2b0ec35308e0680369111daf715b255f039e7636b95ec07c1ced"
+   },
+   "ctorMsg": {
+     "function": "newPayment",
+     "args": [
+       "company1", "true"
+     ]
+   },
+   "secureContext": "test_user0"
+ },
+ "id": 1
+}
+```
+
+##### Read the state of the company
+
+```json
+{
+ "jsonrpc": "2.0",
+ "method": "query",
+ "params": {
+   "type": 1,
+   "chaincodeID": {
+     "name": "29ee1b17a8bfc7bd6d43a7f8739771542bc88da2943793e6a9100272455bd296cdec25fca2bd2b0ec35308e0680369111daf715b255f039e7636b95ec07c1ced"
+   },
+   "ctorMsg": {
+     "function": "read",
+     "args": [
+       "company1"
+     ]
+   },
+   "secureContext": "test_user0"
+ },
+ "id": 1
 }
 ```
