@@ -246,6 +246,49 @@ func (t *SimpleChaincode) Write(stub shim.ChaincodeStubInterface, args []string)
 	return nil, nil
 }
 
+func (t *SimpleChaincode) new_payment(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	fmt.Println("- start new_payment")
+
+	/*
+		1: Name of company
+		2: true: on time, false: late
+	*/
+	if len(args) != 2 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 2")
+	}
+	company := args[0]
+	ontime, err := strconv.ParseBool(args[1])
+
+	//check if company already exists
+	companyAsBytes, err := stub.GetState(company)
+	if err != nil {
+		return nil, errors.New("Failed to get company name")
+	}
+	res := Company{}
+	json.Unmarshal(companyAsBytes, &res)
+	if res.Name == company {
+		fmt.Println("Found company " + company)
+		fmt.Println(res)
+
+		res.Total_n++
+
+		if ontime {
+			res.Ontime_n++
+		}
+
+		jsonAsBytes, _ := json.Marshal(res)
+		err = stub.PutState(company, jsonAsBytes) //rewrite the company
+		if err != nil {
+			return nil, err
+		}
+
+		fmt.Println("- updated company in new_payment")
+		return nil, nil
+	}
+
+	return nil, errors.New("Failed to update company")
+}
+
 // ============================================================================================================================
 // Init Marble - create a new marble, store into chaincode state
 // ============================================================================================================================
