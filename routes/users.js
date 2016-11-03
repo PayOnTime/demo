@@ -25,13 +25,13 @@ var options = { method: 'POST',
         chaincodeID: { path: 'https://github.com/PayOnTime/demo/chaincode' },
         ctorMsg: { function: 'init', args: [ '123' ] },
         secureContext: 'test_user0' },
-     id: 1 },
-  json: true };
+        id: 1 },
+     json: true };
 
 request(options, function (error, response, body) {
-  if (error) throw new Error(error);
-  obj = body
-  console.log(body)
+	if (error) throw new Error(error);
+	obj = body
+	console.log(body)
 });
 module.exports = obj;
 module.exports = router;
