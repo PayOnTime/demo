@@ -1,33 +1,35 @@
 function addUser() {
+    //var formData = new FormData(document.getElementById("addUserForm"))
     var newUser = {
         'name': $('#addUser fieldset input#name').val(),
         'score': $('#addUser fieldset input#score').val(),
         'ontime': $('#addUser fieldset input#ontime').val(),
         'total': $('#addUser fieldset input#total').val(),
     }
+    console.log("Adding new user:", newUser);
+
     // Clear the form inputs
     $('#addUser fieldset input').val(' ');
-    alert(body)
 
-    var request = require("request");
-
-    var options = {
-        method: 'POST',
-        url: 'http://192.168.99.100:7050/chaincode',
-        headers: {
-            'postman-token': 'ed05ba40-e983-6e3d-51db-4575d00f2c84',
-            'cache-control': 'no-cache',
-            'content-type': 'application/json'
+    // TODO send a request to the nodejs web server
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "http://localhost:3000",
+        "method": "POST",
+        "headers": {
+            "content-type": "application/json",
         },
-        body: '{\r\n "jsonrpc": "2.0",\r\n "method": "invoke",\r\n "params": {\r\n   "type": 1,\r\n   "chaincodeID": {\r\n     "name": obj.message\r\n   },\r\n   "ctorMsg": {\r\n     "function": "init_company",\r\n     "args": [\r\n       newUser\r\n     ]\r\n   },\r\n   "secureContext": "test_user0"\r\n },\r\n "id": 1\r\n}'
+        "processData": false,
+        data: JSON.stringify(newUser)
     };
 
-    request(options, function (error, response, body) {
-        if (error) throw new Error(error);
-
-        console.log(body);
+    $.ajax(settings).done(function (response) {
+        console.log(response);
     });
-};
+
+
+}
 
 function info() {
 
