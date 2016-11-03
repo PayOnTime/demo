@@ -3,3 +3,17 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  form(method='POST' action='/click')
+  label(for='name') Name:
+  input#name(type='text', placeholder='name' name='name')
+  br
+  label(for='score') Score:
+  input#score(type='number', placeholder='Score' name='score')
+  br
+  label(for='onTime') No. of on Time Transactions:
+  input#ontime(type='number', placeholder='onTime' name='ontime')
+  br
+  label(for='total') Total no.of Transactions:
+  input#total(type='number', placeholder='total' name='total')
+  br
+  button#btnAdd(onClick=('addUser()')) Add
