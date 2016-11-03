@@ -3,33 +3,55 @@ var router = express.Router();
 var request = require("request");
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'PayOnTime' });
+router.get('/', function (req, res, next) {
+    res.render('index', {title: 'PayOnTime'});
 });
 
-router.post('/add', function(req, res, next) {
+router.post('/add', function (req, res, next) {
 
-  console.log("BODY:", req.body);
+    console.log("BODY:", req.body);
 
-  var options = {
-    method: 'POST',
-    url: 'http://192.168.99.100:7050/chaincode',
-    headers: {
-      'postman-token': 'ed05ba40-e983-6e3d-51db-4575d00f2c84',
-      'cache-control': 'no-cache',
-      'content-type': 'application/json'
-    },
-    body: '{\r\n "jsonrpc": "2.0",\r\n "method": "invoke",\r\n "params": {\r\n   "type": 1,\r\n   "chaincodeID": {\r\n     "name": obj.message\r\n   },\r\n   "ctorMsg": {\r\n     "function": "init_company",\r\n     "args": [\r\n       newUser\r\n     ]\r\n   },\r\n   "secureContext": "test_user0"\r\n },\r\n "id": 1\r\n}'
-  };
+    var args = [];
+    for (var key in req.body) {
+        args.push('' + req.body[key])
+    }
 
-  /*
-  request(options, function (error, response, body) {
-    if (error) throw new Error(error);
+    var body = {
+        "jsonrpc": "2.0",
+        "method": "invoke",
+        "params": {
+            "type": 1,
+            "chaincodeID": {
+                "name": process.env['CHAINCODE_ID']
+            },
+            "ctorMsg": {
+                "function": "init_company",
+                "args": args
+            },
+            "secureContext": "test_user0"
+        },
+        "id": 1
+    };
 
-    alert(body);
-    console.log(body);
-  });
-  */
-  res.send(req.body);
+    var options = {
+        method: 'POST',
+        url: 'http://192.168.99.100:7050/chaincode',
+        json: body
+    };
+
+
+    request(options, function (error, response, body) {
+        if (error) throw new Error(error);
+
+        console.log(body);
+        res.send(body);
+    });
+    //res.send(req.body);
 });
 module.exports = router;
+
+/*
+ setInterval(function() {
+ console.log(process.env['CHAINCODE_ID']);
+ }, 3000);
+ */

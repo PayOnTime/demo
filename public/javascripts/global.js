@@ -1,5 +1,4 @@
 function addUser() {
-    //var formData = new FormData(document.getElementById("addUserForm"))
     var newUser = {
         'name': $('#addUser fieldset input#name').val(),
         'score': $('#addUser fieldset input#score').val(),
