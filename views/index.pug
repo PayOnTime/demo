@@ -3,7 +3,7 @@ extends layout
 block content
     h1= title
     p Welcome to #{title}
-    form#addUser(method='POST' action='/add')
+    form#addUser
       label(for='name') Name:
         input#name(type='text', placeholder='name' name='name')
       br

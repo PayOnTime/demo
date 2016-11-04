@@ -34,6 +34,10 @@ request(options, function (error, response, body) {
 	console.log(body)
     console.log("Storing chaincode ID to process.env['CHAINCODE_ID']")
     process.env['CHAINCODE_ID'] = body.result.message;
+
+
+    // TODO insert spreadsheet parsing code here
+
 });
 module.exports = obj;
 module.exports = router;
