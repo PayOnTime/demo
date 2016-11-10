@@ -19,7 +19,23 @@ block content
       button#btnAdd(onClick=('addUser()')) Add
       br
     br
+	
     label(for='name') Name:
     input#cname(type='text', placeholder='name' name='name')
     br
     button#btnquerry(onClick=('info()')) querry
+	
+    // Wrapper
+    #wrapper
+
+        // USER LIST
+        h2 company score
+        #userList
+            table
+                thead
+                    th Name
+                    th score
+                tbody
+        // /USER LIST
+
+    // /WRAPPER
