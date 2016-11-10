@@ -1,5 +1,52 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+    h1= title
+    p Welcome to #{title}
+	
+    
+    // Wrapper
+    #wrapper
+
+        // USER LIST
+        h2 company score
+        
+    // /WRAPPER
+    
+    form#readUser(method='POST',action='/score/submit')
+      label(for='id') Name:
+        input#id(type='text', placeholder='id' name='id')
+      br
+      br
+      br
+      #{userList}
+    br
+	
+    h4 add company
+    form#addUser(method='POST',action='/addUser')
+      label(for='name') Name:
+        input#name(type='text', placeholder='name' name='name')
+      br
+      label(for='score') Score:
+        input#score(type='number', placeholder='Score' name='score')
+      br
+      label(for='onTime') No. of on Time Transactions:
+        input#ontime(type='number', placeholder='onTime' name='ontime')
+      br
+      label(for='total') Total no.of Transactions:
+        input#total(type='number', placeholder='total' name='total')
+      br
+      button#btnAdd() Add
+      br
+    br
+	
+    h3 add payment
+    form#pay(method='POST',action='/pay')
+      label(for='id') name:
+        input#id(type='text', placeholder='name' name='name')
+      label(for='id') score:
+        input#score(type='text', placeholder='score' score='score')
+      br
+      button#btnAdd() Add
+      br
+    br
