@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-loading">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main">
+						<header>
+							<!--<span class="avatar"><img src="images/avatar.jpg" alt="" /></span>-->
+							<span class="avatar"><img src="images/nodes.png" alt="" /></span>
+							<h1>PayOnTime</h1>
+							<p></p>
+
+							<form class="form-horizontal">
+<fieldset>
+
+<!-- Form Name -->
+<legend></legend>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="Company Name">Company Name</label>  
+  <div class="col-md-4">
+  <input id="Company Name" name="Company Name" type="text" placeholder="" class="form-control input-md" required="">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="Score">Score</label>  
+  <div class="col-md-4">
+  <input id="" name="Score" type="text" placeholder="" class="form-control input-md" required="">
+    
+  </div>
+</div>
+
+
+<!--type Company struct {
+	Name   string `json:"name"` //the fieldtags are needed to keep case from bouncing around
+	Score  int    `json:"score"`
+	Ontime int    `json:"ontime"`  //tracks number of ontime transactions for the company 
+	Total  int    `json:"total"` -->
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="Ontime">Paid On time (1 = yes or 0= no)?</label>  
+  <div class="col-md-4">
+  <input id="" name="" type="text" placeholder="" class="form-control input-md" required="">
+    
+  </div>
+</div>
+
+
+
+<form class="form-horizontal">
+<fieldset>
+
+
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="Search"></label>
+  <div class="col-md-4">
+    <button id="Search" name="Search" class="btn btn-primary">Search</button>
+  </div>
+</div>
+
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="Update"></label>
+  <div class="col-md-4">
+    <button id="Update" name="Update" class="btn btn-primary">Update</button>
+  </div>
+</div>
+
+
+</fieldset>
+</form>
+
+
+						</header>
+						
+					</section>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<ul class="copyright">
+							<li>Template Design Source Inspired by: <a href="http://html5up.net">HTML5 UP</a></li>
+						</ul>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<!--[if lte IE 8]><script src="assets/js/respond.min.js"></script><![endif]-->
+			<script>
+				if ('addEventListener' in window) {
+					window.addEventListener('load', function() { document.body.className = document.body.className.replace(/\bis-loading\b/, ''); });
+					document.body.className += (navigator.userAgent.match(/(MSIE|rv:11\.0)/) ? ' is-ie' : '');
+				}
+
+
+			</script>
+
+	</body>
+</html>
