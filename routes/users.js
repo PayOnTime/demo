@@ -28,12 +28,9 @@ request(options, function (error, response, body) {
 	if (error) throw new Error(error);
 	obj = body
 	console.log(body)
-    console.log("Storing chaincode ID to process.env['CHAINCODE_ID']")
-    process.env['CHAINCODE_ID'] = 'c58e3996f6e7034aad8e76793cb3af368db32de4d1a305926693899db2ea48c492440bb220052f39b4b4fbc256956090b8cc0acb3e47a4b17a0d2efe038ac326';
-
-
     // TODO insert spreadsheet parsing code here
 
 });
+
 module.exports = obj;
 module.exports = router;

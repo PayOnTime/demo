@@ -3,7 +3,26 @@ extends layout
 block content
     h1= title
     p Welcome to #{title}
-    form#addUser
+	
+    
+    // Wrapper
+    #wrapper
+
+        // USER LIST
+        h2 company score
+        
+    // /WRAPPER
+    
+    form#readUser(method='POST',action='/score/submit')
+      label(for='id') Name:
+        input#id(type='text', placeholder='id' name='id')
+      br
+      br
+      br
+      #{userList}
+    br
+	
+    form#addUser(method='POST',action='/addUser')
       label(for='name') Name:
         input#name(type='text', placeholder='name' name='name')
       br
@@ -16,26 +35,6 @@ block content
       label(for='total') Total no.of Transactions:
         input#total(type='number', placeholder='total' name='total')
       br
-      button#btnAdd(onClick=('addUser()')) Add
+      button#btnAdd() Add
       br
     br
-	
-    label(for='name') Name:
-    input#cname(type='text', placeholder='name' name='name')
-    br
-    button#btnquerry(onClick=('info()')) querry
-	
-    // Wrapper
-    #wrapper
-
-        // USER LIST
-        h2 company score
-        #userList
-            table
-                thead
-                    th Name
-                    th score
-                tbody
-        // /USER LIST
-
-    // /WRAPPER

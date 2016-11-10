@@ -23,34 +23,34 @@ function addUser() {
         data: JSON.stringify(newUser)
     };
 	
-	alert("Added user successfuly");
 
     $.ajax(settings).done(function (response) {
         console.log(response);
     });
+	
+	alert("Added user successfuly");
 };
 
 function info() {
 
     var cUser = {
-        'cname': $('#info fieldset input#cname').val(),
+        'cname': $('#readUser fieldset input#cname').val(),
     }
     
-	$('#addUser fieldset input#cname').val(' ');
-	
-	var settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": "http://localhost:3000",
-        "method": "POST",
-        "headers": {
-            "content-type": "application/json",
-        },
-        "processData": false,
-        data: JSON.stringify(cUser)
-    };
+var settings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "http://localhost:3000",
+  "method": "POST",
+  "headers": {
+    "content-type": "application/json",
+  },
+  "processData": false,
+  "data": JSON.stringify(cUser)
+  }
 
-    $.ajax(settings).done(function (response) {
-        console.log(response);
-    });
+$.ajax(settings).done(function (response) {
+  console.log(response);
+});
+
 };
