@@ -22,6 +22,7 @@ block content
       #{userList}
     br
 	
+    h4 add company
     form#addUser(method='POST',action='/addUser')
       label(for='name') Name:
         input#name(type='text', placeholder='name' name='name')
@@ -34,6 +35,17 @@ block content
       br
       label(for='total') Total no.of Transactions:
         input#total(type='number', placeholder='total' name='total')
+      br
+      button#btnAdd() Add
+      br
+    br
+	
+    h3 add payment
+    form#pay(method='POST',action='/pay')
+      label(for='id') name:
+        input#id(type='text', placeholder='name' name='name')
+      label(for='id') score:
+        input#score(type='text', placeholder='score' score='score')
       br
       button#btnAdd() Add
       br
