@@ -97,7 +97,30 @@ router.post('/pay', function (req, res, next) {
 
 
 router.get('/score/:id', function (req, res, next) {
-    res.render('score', {output: req.params.id});
+
+    var options = {
+        method: 'POST',
+        url: 'http://192.168.99.100:7050/chaincode',
+        json: {
+            jsonrpc: '2.0',
+            method: 'query',
+            params: {
+                type: 1,
+                chaincodeID: {name: process.env['CHAINCODE_ID']},
+                ctorMsg: {function: 'read', args: [String(req.params.id)]},
+                secureContext: 'test_user0'
+            },
+            id: 1
+        }
+    };
+
+    request(options, function (error, response, body) {
+        if (error) throw new Error(error);
+
+        console.log('Queried chaincode and got:', body);
+
+        res.render('score', {output: body.result.message});
+    });
 });
 
 router.post('/score/submit', function (req, res, next) {
