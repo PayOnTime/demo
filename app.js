@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var request = require('request');
+var session = require('express-session');
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -22,6 +24,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({secret: 'demosecret', resave: true, saveUninitialized: true}));
+
+// Attach a bag to the request to store stuff
+app.use(function(req, res, next) {
+    // Create a bag for passing information back to the client
+    req.bag = {};
+    req.session.count = req.session.count + 1;
+    req.bag.session = req.session;
+    next();
+});
 
 app.use('/', routes);
 app.use('/users', users);

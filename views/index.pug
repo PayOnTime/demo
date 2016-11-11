@@ -21,6 +21,12 @@ block content
       br
       #{userList}
     br
+
+    h5 Name #{bag.company.name}
+    h6 Score #{bag.company.score}
+    h6 On Time Payments: #{bag.company.ontime}
+    h6 Total Payments: #{bag.company.total}
+
 	
     h4 add company
     form#addUser(method='POST',action='/addUser')
@@ -43,10 +49,10 @@ block content
     h3 add payment
     form#pay(method='POST',action='/pay')
       label(for='id') name:
-        input#id(type='text', placeholder='name' name='name')
-      label(for='id') score:
-        input#score(type='text', placeholder='score' score='score')
+        input#companyID(type='text', placeholder='name' name='name')
+      label(for='score') score:
+        input#paymentOnTime(type='text', placeholder='true/false' name='score')
       br
-      button#btnAdd() Add
+      button#newPaymentButton() Add
       br
     br
