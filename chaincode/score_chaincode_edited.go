@@ -149,14 +149,13 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 	}
 
 	name = args[0]
+	fmt.Println("reading state of: " + name)
 	valAsbytes, err := stub.GetState(name) //get the var from chaincode state
 	if err != nil {
 		jsonResp = "{\"Error\":\"Failed to get state for " + name + "\"}"
 		return nil, errors.New(jsonResp)
 	}
 	fmt.Println("read value: " + string(valAsbytes))
-
-
 
 	return valAsbytes, nil //send it onward
 }
